@@ -14,7 +14,7 @@ interface AnimateInProps {
   once?: boolean;
 }
 
-const directionMap: Record<Direction, object> = {
+const directionMap: Record<Direction, { y?: number; x?: number; opacity?: number; scale?: number }> = {
   up: { y: 32, opacity: 0 },
   down: { y: -32, opacity: 0 },
   left: { x: 32, opacity: 0 },
