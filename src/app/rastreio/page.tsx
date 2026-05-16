@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -447,59 +448,63 @@ export default function TrackingPage() {
                   <Clock size={16} className="text-gold-500" />
                   Histórico de Movimentações
                 </h3>
-                <div className="relative tracking-timeline pl-10 space-y-6">
+                <div className="relative pl-10 space-y-5">
+                  {/* Animated progress line */}
+                  <motion.div
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    style={{ originY: 0 }}
+                    className="absolute left-[1.15rem] top-2 bottom-2 w-0.5 bg-gradient-to-b from-[#C9822A] via-[#C9822A]/50 to-[#2A1F10]"
+                  />
                   {result.events.map((event, i) => {
                     const evtCfg = STATUS_CONFIG[event.status];
                     return (
-                      <div key={i} className="relative">
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.45, delay: i * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+                        className="relative"
+                      >
                         {/* Dot */}
-                        <div
-                          className={`absolute -left-10 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center z-10 ${
-                            i === 0
-                              ? "bg-gold-500 shadow-lg"
-                              : "bg-cream-300"
-                          }`}
-                        >
-                          {i === 0 && (
-                            <div className="w-2 h-2 bg-white rounded-full" />
+                        <div className="absolute -left-10 flex items-center justify-center z-10">
+                          {i === 0 ? (
+                            <motion.div
+                              animate={{ boxShadow: ["0 0 0 0 rgba(201,130,42,0.4)", "0 0 0 8px rgba(201,130,42,0)", "0 0 0 0 rgba(201,130,42,0)"] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                              className="w-5 h-5 rounded-full bg-[#C9822A] border-2 border-[#0C0A08] flex items-center justify-center shadow-lg shadow-[#C9822A]/40"
+                            >
+                              <div className="w-2 h-2 bg-white rounded-full" />
+                            </motion.div>
+                          ) : (
+                            <div className="w-4 h-4 rounded-full bg-[#2A1F10] border-2 border-[#C9822A]/30" />
                           )}
                         </div>
                         <div
-                          className={`rounded-lg p-3.5 border ${
+                          className={`rounded-xl p-3.5 border ${
                             i === 0
-                              ? "bg-cream-100 border-gold-300"
-                              : "bg-white border-cream-200"
+                              ? "bg-[#1A1510] border-[#C9822A]/30 shadow-sm shadow-[#C9822A]/10"
+                              : "bg-[#141210] border-[#2A1F10]"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex-1">
-                              <p
-                                className={`text-sm font-semibold ${
-                                  i === 0
-                                    ? "text-primary-800"
-                                    : "text-primary-600"
-                                }`}
-                              >
+                              <p className={`text-sm font-semibold ${i === 0 ? "text-white" : "text-gray-400"}`}>
                                 {event.description}
                               </p>
                               <div className="flex items-center gap-1.5 mt-1">
-                                <MapPin size={11} className="text-primary-400" />
-                                <span className="text-xs text-primary-400">
-                                  {event.location}
-                                </span>
+                                <MapPin size={11} className="text-[#C9822A]/60" />
+                                <span className="text-xs text-gray-600">{event.location}</span>
                               </div>
                             </div>
                             <div className="text-right flex-shrink-0">
-                              <p className="text-xs font-medium text-primary-600">
-                                {event.date}
-                              </p>
-                              <p className="text-xs text-primary-400">
-                                {event.time}
-                              </p>
+                              <p className={`text-xs font-medium ${i === 0 ? "text-[#C9822A]" : "text-gray-500"}`}>{event.date}</p>
+                              <p className="text-xs text-gray-700">{event.time}</p>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
                     );
                   })}
                 </div>

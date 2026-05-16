@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SmoothScroll from "@/components/providers/SmoothScroll";
+import PageTransition from "@/components/ui/PageTransition";
+import MobileBottomBar from "@/components/ui/MobileBottomBar";
 
 export const metadata: Metadata = {
   title: "Weng Quan | Fornecedor Chinês & Frete Internacional",
@@ -15,7 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body className="bg-[#0C0A08]">
+        <SmoothScroll>
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <MobileBottomBar />
+        </SmoothScroll>
+      </body>
     </html>
   );
 }
