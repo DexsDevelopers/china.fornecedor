@@ -6,7 +6,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AnimateIn, { StaggerChildren, StaggerItem, staggerItemVariants } from "@/components/ui/AnimateIn";
+import AnimateIn from "@/components/ui/AnimateIn";
+import { MetricCard, FeatureCard } from "@/components/ui/cards";
 import {
   Calculator, Package, Shield, Clock, Truck,
   CheckCircle, ArrowRight, Search, Plane, Ship,
@@ -334,21 +335,19 @@ export default function HomePage() {
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-6 border-y border-[#2A1F10] bg-[#0F0D0A]">
+      <section className="py-8 border-y border-[#2A1F10] bg-[#0F0D0A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <StaggerChildren className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {stats.map((stat) => (
-              <StaggerItem key={stat.label} variants={staggerItemVariants} className="flex items-center gap-3 py-3">
-                <div className="w-10 h-10 bg-[#C9822A]/10 border border-[#C9822A]/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <stat.icon size={16} className="text-[#C9822A]" />
-                </div>
-                <div>
-                  <p className="text-xl font-black text-white leading-tight">{stat.value}</p>
-                  <p className="text-xs text-gray-600 mt-0.5">{stat.label}</p>
-                </div>
-              </StaggerItem>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {stats.map((stat, i) => (
+              <MetricCard
+                key={stat.label}
+                icon={stat.icon}
+                value={stat.value}
+                label={stat.label}
+                delay={i * 0.08}
+              />
             ))}
-          </StaggerChildren>
+          </div>
         </div>
       </section>
 
@@ -364,27 +363,17 @@ export default function HomePage() {
               Vantagens exclusivas para sua experiência de compra
             </p>
           </AnimateIn>
-          <StaggerChildren className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {features.map((f) => (
-              <StaggerItem key={f.title} variants={staggerItemVariants}>
-                <motion.div
-                  whileHover={{ borderColor: "rgba(201,130,42,0.35)", y: -4, boxShadow: "0 8px 32px rgba(201,130,42,0.08)" }}
-                  transition={{ duration: 0.2 }}
-                  className="bg-[#141210] border border-[#2A1F10] rounded-2xl p-5 cursor-default h-full"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.1, backgroundColor: "rgba(201,130,42,0.2)" }}
-                    transition={{ duration: 0.2 }}
-                    className="w-10 h-10 bg-[#C9822A]/10 rounded-xl flex items-center justify-center mb-4"
-                  >
-                    <f.icon size={18} className="text-[#C9822A]" />
-                  </motion.div>
-                  <p className="text-white text-sm font-semibold mb-2">{f.title}</p>
-                  <p className="text-gray-600 text-xs leading-relaxed">{f.desc}</p>
-                </motion.div>
-              </StaggerItem>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {features.map((f, i) => (
+              <FeatureCard
+                key={f.title}
+                icon={f.icon}
+                title={f.title}
+                desc={f.desc}
+                delay={i * 0.08}
+              />
             ))}
-          </StaggerChildren>
+          </div>
         </div>
       </section>
 
