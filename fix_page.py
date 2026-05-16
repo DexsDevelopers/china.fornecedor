@@ -1,4 +1,4 @@
-"use client";
+new_content = '''"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -344,3 +344,9 @@ export default function HomePage() {
     </main>
   );
 }
+'''
+
+with open('src/app/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(new_content)
+
+print('page.tsx written successfully')

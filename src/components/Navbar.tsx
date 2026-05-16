@@ -3,69 +3,82 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Package, Calculator, LayoutDashboard, ChevronDown } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Globe, LayoutDashboard, ChevronDown } from "lucide-react";
+
+const navLinks = [
+  { label: "Início", href: "/" },
+  { label: "Calcular Frete", href: "/calcular" },
+  { label: "Rastrear Pedido", href: "/rastreio" },
+  { label: "Serviços", href: "/#servicos" },
+  { label: "Sobre Nós", href: "/#sobre" },
+  { label: "Ajuda", href: "/#ajuda" },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href.split("#")[0]) && href.split("#")[0] !== "/";
+  };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary-800 shadow-xl border-b border-primary-700">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0806]/95 backdrop-blur-md border-b border-[#2A1F10]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-gold-400 shadow-md">
-              <Image
-                src="/logo.jpg"
-                alt="Weng Quan Logo"
-                fill
-                className="object-cover"
-              />
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#C9822A] shadow-[0_0_12px_rgba(201,130,42,0.3)]">
+              <Image src="/logo.jpg" alt="Weng Quan Logo" fill className="object-cover" />
             </div>
             <div className="hidden sm:block">
-              <p className="text-white font-bold text-lg leading-tight tracking-wide">WENG QUAN</p>
-              <p className="text-gold-400 text-xs font-medium leading-tight">Fornecedor Chinês</p>
+              <p className="text-white font-bold text-base leading-tight tracking-wider">WENG QUAN</p>
+              <p className="text-[#C9822A] text-xs font-medium leading-tight">Fornecedor Chinês</p>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            <Link
-              href="/"
-              className="text-cream-200 hover:text-gold-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary-700"
-            >
-              Início
-            </Link>
-            <Link
-              href="/calcular"
-              className="flex items-center gap-1.5 text-cream-200 hover:text-gold-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary-700"
-            >
-              <Calculator size={15} />
-              Calcular Frete
-            </Link>
-            <Link
-              href="/rastreio"
-              className="flex items-center gap-1.5 text-cream-200 hover:text-gold-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-primary-700"
-            >
-              <Package size={15} />
-              Rastrear Pedido
-            </Link>
+          <div className="hidden lg:flex items-center gap-0.5">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-3.5 py-2 text-sm font-medium transition-colors ${
+                    active ? "text-[#C9822A]" : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                  {active && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#C9822A] rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
-          {/* CTA buttons */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right side */}
+          <div className="hidden lg:flex items-center gap-3">
+            <button className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors">
+              <Globe size={14} />
+              <span>BR / PT</span>
+              <ChevronDown size={12} />
+            </button>
             <Link
               href="/admin"
-              className="flex items-center gap-1.5 bg-gold-500 hover:bg-gold-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
+              className="flex items-center gap-1.5 bg-[#C9822A] hover:bg-[#A86820] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-md shadow-[#C9822A]/20"
             >
-              <LayoutDashboard size={15} />
+              <LayoutDashboard size={14} />
               Área Admin
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-cream-200 hover:text-gold-400 p-2 rounded-lg transition-colors"
+            className="lg:hidden text-gray-400 hover:text-white p-2 rounded-lg transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -75,35 +88,26 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-primary-800 border-t border-primary-700 pb-4">
+        <div className="lg:hidden bg-[#0C0A08] border-t border-[#2A1F10] pb-4">
           <div className="px-4 pt-2 space-y-1">
-            <Link
-              href="/"
-              className="block text-cream-200 hover:text-gold-400 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-primary-700"
-              onClick={() => setIsOpen(false)}
-            >
-              Início
-            </Link>
-            <Link
-              href="/calcular"
-              className="flex items-center gap-2 text-cream-200 hover:text-gold-400 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-primary-700"
-              onClick={() => setIsOpen(false)}
-            >
-              <Calculator size={16} />
-              Calcular Frete
-            </Link>
-            <Link
-              href="/rastreio"
-              className="flex items-center gap-2 text-cream-200 hover:text-gold-400 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-primary-700"
-              onClick={() => setIsOpen(false)}
-            >
-              <Package size={16} />
-              Rastrear Pedido
-            </Link>
-            <div className="pt-2 border-t border-primary-700 mt-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive(link.href)
+                    ? "text-[#C9822A] bg-[#1A1208]"
+                    : "text-gray-400 hover:text-white hover:bg-[#1A1208]"
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-2 border-t border-[#2A1F10] mt-2">
               <Link
                 href="/admin"
-                className="flex items-center gap-2 bg-gold-500 text-white px-3 py-2.5 rounded-lg text-sm font-semibold"
+                className="flex items-center gap-2 bg-[#C9822A] text-white px-3 py-2.5 rounded-lg text-sm font-semibold"
                 onClick={() => setIsOpen(false)}
               >
                 <LayoutDashboard size={16} />
