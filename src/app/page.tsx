@@ -408,7 +408,7 @@ export default function HomePage() {
               </motion.div>
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                 <a
-                  href="https://wa.me/5511999990000"
+                  href="https://wa.me/5551996148568"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-[#1A1510] border border-[#2A1F10] hover:border-[#C9822A]/30 text-white font-semibold px-8 py-4 rounded-xl transition-colors"

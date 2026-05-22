@@ -67,7 +67,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2.5">
                 <MessageCircle size={14} className="text-[#C9822A] flex-shrink-0" />
-                <span className="text-sm text-gray-600">WhatsApp: (11) 99999-0000</span>
+                <span className="text-sm text-gray-600">WhatsApp: +55 51 99614-8568</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Instagram size={14} className="text-[#C9822A] flex-shrink-0" />

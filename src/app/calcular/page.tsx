@@ -431,7 +431,7 @@ export default function CalculatorPage() {
                   </div>
 
                   <a
-                    href="https://wa.me/5511999990000?text=Olá! Quero fazer um pedido."
+                    href="https://wa.me/5551996148568?text=Olá! Quero fazer um pedido."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition-all text-sm"

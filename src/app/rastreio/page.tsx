@@ -519,7 +519,7 @@ export default function TrackingPage() {
                   Fale conosco no WhatsApp com o código do rastreamento
                 </p>
                 <a
-                  href={`https://wa.me/5511999990000?text=Olá! Quero informações sobre o pedido ${result.code}`}
+                  href={`https://wa.me/5551996148568?text=Olá! Quero informações sobre o pedido ${result.code}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2.5 rounded-lg transition-all text-sm"
