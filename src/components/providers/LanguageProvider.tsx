@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 export type LanguageCode = "PT" | "EN" | "ES" | "ZH";
 
@@ -11,7 +11,53 @@ export const languages = [
   { code: "ZH" as const, region: "CN", label: "中文" },
 ];
 
-const dictionaries = {
+interface Dictionary {
+  brandTagline: string;
+  nav: Record<"home" | "calculate" | "track" | "services" | "about" | "help" | "admin" | "language", string>;
+  home: {
+    badge: string;
+    heroTitle1: string;
+    heroTitle2: string;
+    heroDescription: string;
+    calculateNow: string;
+    trackOrder: string;
+    trustBadges: { title: string; desc: string }[];
+    stats: { value: string; label: string }[];
+    trackingCardTitle: string;
+    trackingCardDesc: string;
+    trackingCardButton: string;
+    trackingCardHelp: string;
+    calculatorCardTitle: string;
+    calculatorCardDesc: string;
+    weight: string;
+    originCountry: string;
+    destinationCountry: string;
+    calculateShipping: string;
+    moreOptions: string;
+    whyTitle: string;
+    whySubtitle: string;
+    features: { title: string; desc: string }[];
+    ctaTitle: string;
+    ctaDesc: string;
+    whatsapp: string;
+  };
+  footer: {
+    description: string;
+    safePurchase: string;
+    navigation: string;
+    services: string;
+    servicesList: string[];
+    contact: string;
+    hours: string;
+    saturday: string;
+    paymentAccepted: string;
+    rights: string;
+    privacy: string;
+    terms: string;
+  };
+}
+
+const dictionaries: Record<LanguageCode, Dictionary> = {
   PT: {
     brandTagline: "Fornecedor Chinês",
     nav: {
@@ -292,9 +338,7 @@ const dictionaries = {
       terms: "使用条款",
     },
   },
-} as const;
-
-type Dictionary = (typeof dictionaries)[LanguageCode];
+};
 
 interface LanguageContextValue {
   language: LanguageCode;
@@ -304,6 +348,10 @@ interface LanguageContextValue {
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
+
+function getDictionary(language: LanguageCode): Dictionary {
+  return dictionaries[language];
+}
 
 export default function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<LanguageCode>("PT");
@@ -321,15 +369,12 @@ export default function LanguageProvider({ children }: { children: ReactNode }) 
     document.documentElement.lang = newLanguage === "PT" ? "pt-BR" : newLanguage.toLowerCase();
   };
 
-  const value = useMemo<LanguageContextValue>(
-    () => ({
-      language,
-      selectedLanguage: languages.find((item) => item.code === language) ?? languages[0],
-      setLanguage,
-      t: dictionaries[language as keyof typeof dictionaries],
-    }),
-    [language]
-  );
+  const value: LanguageContextValue = {
+    language,
+    selectedLanguage: languages.find((item) => item.code === language) ?? languages[0],
+    setLanguage,
+    t: getDictionary(language),
+  };
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
