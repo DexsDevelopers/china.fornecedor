@@ -15,8 +15,17 @@ const navLinks = [
   { label: "Ajuda", href: "/#ajuda" },
 ];
 
+const languages = [
+  { code: "PT", region: "BR", label: "Português" },
+  { code: "EN", region: "US", label: "English" },
+  { code: "ES", region: "ES", label: "Español" },
+  { code: "ZH", region: "CN", label: "中文" },
+];
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -62,11 +71,45 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="hidden lg:flex items-center gap-3">
-            <button className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors">
-              <Globe size={14} />
-              <span>BR / PT</span>
-              <ChevronDown size={12} />
-            </button>
+            <div className="relative">
+              <button
+                className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors"
+                onClick={() => setIsLangOpen(!isLangOpen)}
+              >
+                <Globe size={14} />
+                <span>{selectedLanguage.region} / {selectedLanguage.code}</span>
+                <ChevronDown
+                  size={12}
+                  className={`transition-transform ${isLangOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {isLangOpen && (
+                <div className="absolute right-0 top-full mt-3 w-44 rounded-2xl border border-[#2A1F10] bg-[#0C0A08]/95 backdrop-blur-xl shadow-2xl shadow-black/40 overflow-hidden">
+                  {languages.map((language) => {
+                    const active = language.code === selectedLanguage.code;
+
+                    return (
+                      <button
+                        key={language.code}
+                        className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors ${
+                          active
+                            ? "text-[#C9822A] bg-[#C9822A]/10"
+                            : "text-gray-400 hover:text-white hover:bg-white/5"
+                        }`}
+                        onClick={() => {
+                          setSelectedLanguage(language);
+                          setIsLangOpen(false);
+                        }}
+                      >
+                        <span>{language.label}</span>
+                        <span className="text-xs font-semibold">{language.region} / {language.code}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <Link
               href="/admin"
               className="flex items-center gap-1.5 bg-[#C9822A] hover:bg-[#A86820] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-md shadow-[#C9822A]/20"
@@ -105,6 +148,31 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="pt-2 border-t border-[#2A1F10] mt-2">
+              <div className="px-3 py-2">
+                <div className="flex items-center gap-2 text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                  <Globe size={13} />
+                  Idioma
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {languages.map((language) => {
+                    const active = language.code === selectedLanguage.code;
+
+                    return (
+                      <button
+                        key={language.code}
+                        className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors ${
+                          active
+                            ? "bg-[#C9822A]/15 text-[#C9822A] border border-[#C9822A]/30"
+                            : "bg-[#141210] text-gray-500 border border-[#2A1F10]"
+                        }`}
+                        onClick={() => setSelectedLanguage(language)}
+                      >
+                        {language.region} / {language.code}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
               <Link
                 href="/admin"
                 className="flex items-center gap-2 bg-[#C9822A] text-white px-3 py-2.5 rounded-lg text-sm font-semibold"
