@@ -5,27 +5,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Globe, LayoutDashboard, ChevronDown } from "lucide-react";
+import { languages, useLanguage } from "@/components/providers/LanguageProvider";
 
 const navLinks = [
-  { label: "Início", href: "/" },
-  { label: "Calcular Frete", href: "/calcular" },
-  { label: "Rastrear Pedido", href: "/rastreio" },
-  { label: "Serviços", href: "/#servicos" },
-  { label: "Sobre Nós", href: "/#sobre" },
-  { label: "Ajuda", href: "/#ajuda" },
-];
-
-const languages = [
-  { code: "PT", region: "BR", label: "Português" },
-  { code: "EN", region: "US", label: "English" },
-  { code: "ES", region: "ES", label: "Español" },
-  { code: "ZH", region: "CN", label: "中文" },
+  { key: "home" as const, href: "/" },
+  { key: "calculate" as const, href: "/calcular" },
+  { key: "track" as const, href: "/rastreio" },
+  { key: "services" as const, href: "/#servicos" },
+  { key: "about" as const, href: "/#sobre" },
+  { key: "help" as const, href: "/#ajuda" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+  const { selectedLanguage, setLanguage, t } = useLanguage();
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -44,7 +38,7 @@ export default function Navbar() {
             </div>
             <div className="hidden sm:block">
               <p className="text-white font-bold text-base leading-tight tracking-wider">WENG QUAN</p>
-              <p className="text-[#C9822A] text-xs font-medium leading-tight">Fornecedor Chinês</p>
+              <p className="text-[#C9822A] text-xs font-medium leading-tight">{t.brandTagline}</p>
             </div>
           </Link>
 
@@ -60,7 +54,7 @@ export default function Navbar() {
                     active ? "text-[#C9822A]" : "text-gray-400 hover:text-white"
                   }`}
                 >
-                  {link.label}
+                  {t.nav[link.key]}
                   {active && (
                     <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#C9822A] rounded-full" />
                   )}
@@ -98,7 +92,7 @@ export default function Navbar() {
                             : "text-gray-400 hover:text-white hover:bg-white/5"
                         }`}
                         onClick={() => {
-                          setSelectedLanguage(language);
+                          setLanguage(language.code);
                           setIsLangOpen(false);
                         }}
                       >
@@ -115,7 +109,7 @@ export default function Navbar() {
               className="flex items-center gap-1.5 bg-[#C9822A] hover:bg-[#A86820] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-md shadow-[#C9822A]/20"
             >
               <LayoutDashboard size={14} />
-              Área Admin
+              {t.nav.admin}
             </Link>
           </div>
 
@@ -144,14 +138,14 @@ export default function Navbar() {
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                {link.label}
+                {t.nav[link.key]}
               </Link>
             ))}
             <div className="pt-2 border-t border-[#2A1F10] mt-2">
               <div className="px-3 py-2">
                 <div className="flex items-center gap-2 text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">
                   <Globe size={13} />
-                  Idioma
+                  {t.nav.language}
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {languages.map((language) => {
@@ -165,7 +159,7 @@ export default function Navbar() {
                             ? "bg-[#C9822A]/15 text-[#C9822A] border border-[#C9822A]/30"
                             : "bg-[#141210] text-gray-500 border border-[#2A1F10]"
                         }`}
-                        onClick={() => setSelectedLanguage(language)}
+                        onClick={() => setLanguage(language.code)}
                       >
                         {language.region} / {language.code}
                       </button>
@@ -179,7 +173,7 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 <LayoutDashboard size={16} />
-                Área Admin
+                {t.nav.admin}
               </Link>
             </div>
           </div>

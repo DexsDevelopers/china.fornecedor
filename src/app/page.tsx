@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimateIn from "@/components/ui/AnimateIn";
 import { MetricCard, FeatureCard } from "@/components/ui/cards";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 import {
   Calculator, Package, Shield, Clock, Truck,
   CheckCircle, ArrowRight, Search, Plane, Ship,
@@ -15,25 +16,25 @@ import {
 } from "lucide-react";
 
 const stats = [
-  { value: "+28.500", label: "Envios realizados", icon: Package },
-  { value: "98.7%", label: "Entregas no prazo", icon: TrendingUp },
-  { value: "12-25 dias", label: "Prazo médio de entrega", icon: Clock },
-  { value: "+8 anos", label: "De experiência", icon: Star },
+  { icon: Package },
+  { icon: TrendingUp },
+  { icon: Clock },
+  { icon: Star },
 ];
 
 const trustBadges = [
-  { icon: Shield, title: "Compra Segura", desc: "Proteção do início ao fim" },
-  { icon: Plane, title: "Frete Internacional", desc: "Melhores preços do mercado" },
-  { icon: Clock, title: "Entrega Rápida", desc: "Prazo médio de 12 a 25 dias" },
-  { icon: Headphones, title: "Suporte Dedicado", desc: "Atendimento via WhatsApp" },
+  { icon: Shield },
+  { icon: Plane },
+  { icon: Clock },
+  { icon: Headphones },
 ];
 
 const features = [
-  { icon: Shield, title: "100% Seguro", desc: "Seus produtos protegidos do início ao fim" },
-  { icon: DollarSign, title: "Impostos Transparentes", desc: "Sem taxas ocultas, você sabe exatamente o que paga" },
-  { icon: Package, title: "Rastreamento Completo", desc: "Acompanhe seu pedido em tempo real" },
-  { icon: CheckCircle, title: "Pagamento Seguro", desc: "Pague via PIX com total segurança" },
-  { icon: Headphones, title: "Suporte Especializado", desc: "Atendimento rápido e humanizado via WhatsApp" },
+  { icon: Shield },
+  { icon: DollarSign },
+  { icon: Package },
+  { icon: CheckCircle },
+  { icon: Headphones },
 ];
 
 const easing = [0.21, 0.47, 0.32, 0.98] as const;
@@ -41,6 +42,7 @@ const easing = [0.21, 0.47, 0.32, 0.98] as const;
 export default function HomePage() {
   const [trackingCode, setTrackingCode] = useState("");
   const [weight, setWeight] = useState("1.50");
+  const { t } = useLanguage();
 
   return (
     <main className="min-h-screen bg-[#0C0A08]">
@@ -69,7 +71,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 bg-[#1A1510] border border-[#2A1F10] rounded-full px-4 py-1.5 mb-6"
               >
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-gray-300 text-sm">Enviamos para todo o Brasil</span>
+                <span className="text-gray-300 text-sm">{t.home.badge}</span>
               </motion.div>
 
               <div className="overflow-hidden">
@@ -79,9 +81,9 @@ export default function HomePage() {
                   transition={{ duration: 0.65, delay: 0.1, ease: easing }}
                   className="text-5xl lg:text-6xl font-black leading-tight"
                 >
-                  <span className="text-white">Fornecedor Chinês</span>
+                  <span className="text-white">{t.home.heroTitle1}</span>
                   <br />
-                  <span className="text-[#C9822A]">Direto para Você</span>
+                  <span className="text-[#C9822A]">{t.home.heroTitle2}</span>
                 </motion.h1>
               </div>
 
@@ -91,9 +93,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: 0.25, ease: easing }}
                 className="mt-5 text-gray-400 text-lg leading-relaxed max-w-lg"
               >
-                Compre qualquer produto da China com segurança. Frete
-                internacional em 12-25 dias, rastreamento completo e cálculo
-                de impostos transparente.
+                {t.home.heroDescription}
               </motion.p>
 
               <motion.div
@@ -108,7 +108,7 @@ export default function HomePage() {
                     className="flex items-center justify-center gap-2 bg-[#C9822A] hover:bg-[#A86820] text-white font-bold px-7 py-3.5 rounded-xl transition-colors shadow-lg shadow-[#C9822A]/25"
                   >
                     <Calculator size={18} />
-                    Calcular Frete Agora
+                    {t.home.calculateNow}
                     <ArrowRight size={16} />
                   </Link>
                 </motion.div>
@@ -118,7 +118,7 @@ export default function HomePage() {
                     className="flex items-center justify-center gap-2 bg-transparent border border-[#C9822A]/40 hover:border-[#C9822A] text-white font-semibold px-7 py-3.5 rounded-xl transition-colors"
                   >
                     <Package size={18} />
-                    Rastrear Pedido
+                    {t.home.trackOrder}
                     <ArrowRight size={16} />
                   </Link>
                 </motion.div>
@@ -133,15 +133,15 @@ export default function HomePage() {
               >
                 {trustBadges.map((badge, i) => (
                   <motion.div
-                    key={badge.title}
+                    key={t.home.trustBadges[i].title}
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.45, delay: 0.6 + i * 0.08, ease: easing }}
                     className="flex flex-col gap-1"
                   >
                     <badge.icon size={16} className="text-[#C9822A]" />
-                    <p className="text-white text-xs font-semibold">{badge.title}</p>
-                    <p className="text-gray-600 text-xs leading-tight">{badge.desc}</p>
+                    <p className="text-white text-xs font-semibold">{t.home.trustBadges[i].title}</p>
+                    <p className="text-gray-600 text-xs leading-tight">{t.home.trustBadges[i].desc}</p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -220,7 +220,7 @@ export default function HomePage() {
                 className="absolute top-6 left-0 bg-[#1A1510] border border-[#2A1F10] rounded-xl px-3.5 py-2.5 shadow-2xl"
               >
                 <p className="text-[#C9822A] font-black text-xl">+28.500</p>
-                <p className="text-gray-500 text-xs">Envios realizados</p>
+                <p className="text-gray-500 text-xs">{t.home.stats[0].label}</p>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: 24 }}
@@ -229,7 +229,7 @@ export default function HomePage() {
                 className="absolute bottom-10 right-0 bg-[#1A1510] border border-[#2A1F10] rounded-xl px-3.5 py-2.5 shadow-2xl"
               >
                 <p className="text-[#C9822A] font-black text-xl">98.7%</p>
-                <p className="text-gray-500 text-xs">Entregas no prazo</p>
+                <p className="text-gray-500 text-xs">{t.home.stats[1].label}</p>
               </motion.div>
             </motion.div>
           </div>
@@ -248,10 +248,10 @@ export default function HomePage() {
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   <Package size={18} className="text-[#C9822A]" />
-                  <h3 className="text-white font-bold">Rastreie seu pedido</h3>
+                  <h3 className="text-white font-bold">{t.home.trackingCardTitle}</h3>
                 </div>
                 <p className="text-gray-600 text-sm mb-4">
-                  Digite seu código de rastreamento para acompanhar seu pedido
+                  {t.home.trackingCardDesc}
                 </p>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
@@ -269,12 +269,12 @@ export default function HomePage() {
                       href="/rastreio"
                       className="bg-[#C9822A] hover:bg-[#A86820] text-white font-semibold px-5 py-3 rounded-xl transition-colors text-sm whitespace-nowrap shadow-md shadow-[#C9822A]/20"
                     >
-                      Rastrear Agora
+                      {t.home.trackingCardButton}
                     </Link>
                   </motion.div>
                 </div>
                 <p className="text-[#C9822A] text-xs mt-3 hover:underline cursor-pointer">
-                  Não tem um código? Saiba como funciona →
+                  {t.home.trackingCardHelp}
                 </p>
               </motion.div>
             </AnimateIn>
@@ -287,14 +287,14 @@ export default function HomePage() {
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   <Calculator size={18} className="text-[#C9822A]" />
-                  <h3 className="text-white font-bold">Calculadora de frete</h3>
+                  <h3 className="text-white font-bold">{t.home.calculatorCardTitle}</h3>
                 </div>
                 <p className="text-gray-600 text-sm mb-4">
-                  Calcule o valor do frete e prazo de entrega
+                  {t.home.calculatorCardDesc}
                 </p>
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   <div>
-                    <label className="text-xs text-gray-600 mb-1 block">Peso (kg)</label>
+                    <label className="text-xs text-gray-600 mb-1 block">{t.home.weight}</label>
                     <input
                       type="number"
                       value={weight}
@@ -303,13 +303,13 @@ export default function HomePage() {
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-gray-600 mb-1 block">País de origem</label>
+                    <label className="text-xs text-gray-600 mb-1 block">{t.home.originCountry}</label>
                     <select className="w-full bg-[#1A1510] border border-[#2A1F10] rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#C9822A]/50 appearance-none cursor-pointer">
                       <option>China</option>
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs text-gray-600 mb-1 block">País de destino</label>
+                    <label className="text-xs text-gray-600 mb-1 block">{t.home.destinationCountry}</label>
                     <select className="w-full bg-[#1A1510] border border-[#2A1F10] rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#C9822A]/50 appearance-none cursor-pointer">
                       <option>Brasil</option>
                     </select>
@@ -321,12 +321,12 @@ export default function HomePage() {
                     className="w-full flex items-center justify-center gap-2 bg-[#C9822A] hover:bg-[#A86820] text-white font-semibold py-3 rounded-xl transition-colors text-sm shadow-md shadow-[#C9822A]/20"
                   >
                     <Calculator size={15} />
-                    Calcular Frete
+                    {t.home.calculateShipping}
                     <ArrowRight size={14} />
                   </Link>
                 </motion.div>
                 <p className="text-gray-700 text-xs mt-2 text-center cursor-pointer hover:text-gray-500">
-                  Mais opções de cálculo →
+                  {t.home.moreOptions}
                 </p>
               </motion.div>
             </AnimateIn>
@@ -340,10 +340,10 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, i) => (
               <MetricCard
-                key={stat.label}
+                key={t.home.stats[i].label}
                 icon={stat.icon}
-                value={stat.value}
-                label={stat.label}
+                value={t.home.stats[i].value}
+                label={t.home.stats[i].label}
                 delay={i * 0.08}
               />
             ))}
@@ -356,20 +356,20 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimateIn direction="up" className="mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Por que escolher a{" "}
+              {t.home.whyTitle}{" "}
               <span className="text-[#C9822A]">WENG QUAN</span>
             </h2>
             <p className="text-gray-600 text-sm mt-2">
-              Vantagens exclusivas para sua experiência de compra
+              {t.home.whySubtitle}
             </p>
           </AnimateIn>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {features.map((f, i) => (
               <FeatureCard
-                key={f.title}
+                key={t.home.features[i].title}
                 icon={f.icon}
-                title={f.title}
-                desc={f.desc}
+                title={t.home.features[i].title}
+                desc={t.home.features[i].desc}
                 delay={i * 0.08}
               />
             ))}
@@ -389,11 +389,10 @@ export default function HomePage() {
               <Calculator size={28} className="text-[#C9822A]" />
             </motion.div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Pronto para começar a importar?
+              {t.home.ctaTitle}
             </h2>
             <p className="text-gray-500 mb-8 max-w-lg mx-auto">
-              Calcule seu frete agora e descubra o quanto você pode economizar
-              comprando direto da China.
+              {t.home.ctaDesc}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
@@ -402,7 +401,7 @@ export default function HomePage() {
                   className="inline-flex items-center justify-center gap-2 bg-[#C9822A] hover:bg-[#A86820] text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-xl shadow-[#C9822A]/20"
                 >
                   <Calculator size={18} />
-                  Calcular Frete Agora
+                  {t.home.calculateNow}
                   <ArrowRight size={16} />
                 </Link>
               </motion.div>
@@ -413,7 +412,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-[#1A1510] border border-[#2A1F10] hover:border-[#C9822A]/30 text-white font-semibold px-8 py-4 rounded-xl transition-colors"
                 >
-                  💬 Falar no WhatsApp
+                  {t.home.whatsapp}
                 </a>
               </motion.div>
             </div>
